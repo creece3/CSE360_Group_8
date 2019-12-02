@@ -35,6 +35,10 @@ public class Data
 	
 	public void printData() 
 	{
+		sortData();
+		
+		int rows = data.size() / 4 + 1;
+		
 		for(Float dataElement : data) 
 		{
 			if(dataElement >= min && dataElement <= max) 
