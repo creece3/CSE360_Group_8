@@ -1,7 +1,13 @@
-public class Errors
+/* Names and IDs: Christopher Reece creece3
+ * Assignment: Final Project
+ * 
+ * Description: 
+ */
+
+public interface Errors
 {
-	String fileNonexistent = "File does not exist: ",
+	public final String fileNonexistent = "File does not exist: ",
 			fileInvalid = "File has an invalid extension: ",
-			dataInvalid = "File input data invalid: ",
-			entryInvalid = "User input data invalid: ";
+			fileDataInvalid = "File input data invalid ",
+			dataInputInvalid = "User input data invalid: ";
 }
