@@ -7,7 +7,7 @@
 public interface Events 
 {
 	final String fileImport = "File Imported: ";
-	final String dataInput = "U";
+	final String dataInput = "User input data: ";
 	final String sort = "Sorted data";
 	
 }

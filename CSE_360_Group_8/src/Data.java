@@ -62,7 +62,7 @@ public class Data
     		
     		data.add(dataElementFloat);
     		
-    		history.add();
+    		history.add(Events.dataInput + dataElementString);
     	}
     	catch(NumberFormatException e)
     	{
