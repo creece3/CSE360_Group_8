@@ -1,40 +1,85 @@
-package sample;
-
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.application.Application;
-import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-
-import javafx.stage.Stage;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.text.*;
 
 public class Main extends Application {
 
+    Stage window;
+    TableView<table> table;
+    TextField valueInput;
+    Button addButton;
+    Button deleteButton;
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
+        Font font = Font.font("Verdana", FontWeight.EXTRA_BOLD, 25);
         VBox root = new VBox();
         SplitPane split_pane = new SplitPane();
 
-        // HBOX
-        HBox hbox = new HBox();
-        hbox.setPadding(new Insets(15, 12, 15, 12));
-        hbox.setSpacing(10);
-        hbox.setStyle("-fx-background-color: #336699;");
+        // Data Entry
+        HBox dateEntryPane = new HBox();
+        dateEntryPane.setPadding(new Insets(15, 12, 15, 12));
+        dateEntryPane.setSpacing(10);
+        dateEntryPane.setStyle("-fx-background-color: #336699;");
 
-        Button buttonCurrent = new Button("Current");
-        buttonCurrent.setPrefSize(100, 20);
+        // Boundaries for dataset
+        HBox boundaryPane = new HBox();
+        boundaryPane.setPadding(new Insets(15, 12, 15, 12));
+        boundaryPane.setSpacing(10);
+        boundaryPane.setStyle("-fx-background-color: #336699;");
 
-        Button buttonProjected = new Button("Projected");
-        buttonProjected.setPrefSize(100, 20);
-        hbox.getChildren().addAll(buttonCurrent, buttonProjected);
-        root.getChildren().addAll(hbox);
+        //Value input
+        TextField minBoundaryInput = new TextField();
+        minBoundaryInput.setPromptText("Min");
+        TextField maxBoundaryInput = new TextField();
+        maxBoundaryInput.setPromptText("Max");
+
+        //Buttons
+        Button createReport = new Button("Create Report");
+//        addButton.setOnAction(e -> addButtonClicked());
+        Button submitData = new Button("Submit DAta");
+//        deleteButton.setOnAction(e -> deleteButtonClicked());
+
+        boundaryPane.getChildren().addAll(minBoundaryInput,maxBoundaryInput,createReport,submitData);
+
+        // ** ADDED
+        //Value column
+        TableColumn<table, Double> valueColumn = new TableColumn<>("Value");
+        valueColumn.setMinWidth(100);
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("Value"));
+
+        //Value input
+        valueInput = new TextField();
+        valueInput.setPromptText("Value");
+
+        //Buttons
+        addButton = new Button("Add Value");
+        addButton.setOnAction(e -> addButtonClicked());
+        deleteButton = new Button("Delete Value");
+        deleteButton.setOnAction(e -> deleteButtonClicked());
+
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(10,10,10,10));
+        hBox.setSpacing(10);
+        hBox.getChildren().addAll(valueInput, addButton, deleteButton);
+
+        table = new TableView<>();
+        table.getColumns().addAll(valueColumn);
+
+        VBox tablePane = new VBox();
+        tablePane.getChildren().addAll(table, hBox);
+
+        // Add the panes to the dataEntry section
+        dateEntryPane.getChildren().addAll(boundaryPane, tablePane);
+        root.getChildren().addAll(dateEntryPane);
 
         // Error Side
         VBox errorBox = new VBox();
@@ -43,6 +88,7 @@ public class Main extends Application {
         errorBox.setStyle("-fx-background-color: #ebd834;");
 
         Text errorHeader = new Text("ERROR:");
+        errorHeader.setFont(font);
 
         errorBox.getChildren().addAll(errorHeader);
 
@@ -55,6 +101,7 @@ public class Main extends Application {
         dataBox.setStyle("-fx-background-color: #3b9dff;");
 
         Text dataHeader = new Text("DATA:");
+        dataHeader.setFont(font);
 
         dataBox.getChildren().addAll(dataHeader);
 
@@ -64,9 +111,25 @@ public class Main extends Application {
 
         // display the Application
         primaryStage.setTitle("Grading Application");
-        Scene scene = new Scene(root, 500, 400); //setup of the scene inside the pane
+        Scene scene = new Scene(root, 1000, 800); //setup of the scene inside the pane
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    //Add button clicked
+    public void addButtonClicked(){
+        table valTable = new table();
+        valTable.setValue(Double.parseDouble(valueInput.getText()));
+        table.getItems().add(valTable);
+        valueInput.clear();
+    }
+
+    //Delete button clicked
+    public void deleteButtonClicked(){
+        ObservableList<table> productSelected, allProducts;
+        allProducts = table.getItems();
+        productSelected = table.getSelectionModel().getSelectedItems();
+        productSelected.forEach(allProducts::remove);
     }
 
 
