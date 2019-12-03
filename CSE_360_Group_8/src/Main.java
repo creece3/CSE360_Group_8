@@ -17,8 +17,8 @@ public class Main extends Application {
     TextField valueInput;
     Button addButton;
     Button deleteButton;
-    Data data;
-    TextField errors = new TextField();
+    Data data = null;
+    Text errors = new Text();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -79,7 +79,7 @@ public class Main extends Application {
         VBox tablePane = new VBox();
         tablePane.getChildren().addAll(table, hBox);
 
-        // Dont allow input of data without bounds
+        // Don't allow input of data without bounds
         submitData.setOnAction(e -> {
             getBoundaries(minBoundaryInput, maxBoundaryInput);
             addButton.setDisable(false);
@@ -99,7 +99,8 @@ public class Main extends Application {
         Text errorHeader = new Text("ERROR:");
         errorHeader.setFont(font);
 
-        errors.setDisable(true);
+        errors.setStyle("-fx-text-inner-color: red; -fx-font-size: 16px;");
+//        errors.setDisable(true);
 
         errorBox.getChildren().addAll(errorHeader, errors);
 
@@ -114,8 +115,7 @@ public class Main extends Application {
         Text dataHeader = new Text("DATA:");
         dataHeader.setFont(font);
 
-        TextField dataDisplay = new TextField();
-        dataDisplay.setDisable(true);
+        Text dataDisplay = new Text();
 
         dataBox.getChildren().addAll(dataHeader, dataDisplay);
 
@@ -148,8 +148,11 @@ public class Main extends Application {
 
     // Boundaries for Data
     private void getBoundaries(TextField minBound, TextField maxBound){
-        data = new Data();
+        if (data == null)
+            data = new Data();
         data.setMinMax(minBound.getText(), maxBound.getText());
+
+        errors.setText(data.printErrors());
     }
 
     public static void main(String[] args) {
