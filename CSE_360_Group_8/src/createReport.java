@@ -37,38 +37,19 @@ public class createReport extends Application {
 	
 	//Report button clicked
     public void reportButtonClicked() {
-	// **
-	    try {
-		    BufferedWriter buffWrite = new BufferedWriter(new FileWriter("Extractdate.txt"));
-		    buffWrite.write("hello");
-		    buffWrite.flush(); // flush the buffer
-		    buffWrite.close(); // close file
-		    System.out.println("Written to file: [Extractdate.txt]");
-		} catch (IOException e) {
-		    System.out.println((e));
-		}
-	// ** 
-	    
-	    
-    	//FileWriter dataAnalysis;
-    	//FileWriter errorLog;
-    	BufferedWriter bw1;
-    	BufferedWriter bw2;
         
-        try {
-        	//dataAnalysis = new FileWriter("Data Analysis.txt");
-        	//errorLog = new FileWriter("Error Log.txt");
+    	try {
+    		BufferedWriter bw1 = new BufferedWriter(new FileWriter("Data Analysis.txt"));
+    		BufferedWriter bw2 = new BufferedWriter(new FileWriter("Error Log.txt"));
         	
-        	bw1 = new BufferedWriter(new FileWriter("DataAnalysis.txt"));
-        	bw2 = new BufferedWriter(new FileWriter("ErrorLog.txt"));
-        	
-        	bw1.write("Data Analysis: ");
-        	bw2.write("Error Log: ");
+        	bw1.write("Data Analysis \nMean: \nMedian: \nMode: \nHighest: \nLowest: ");
+        	bw2.write("Error Log \n");
         	
         	bw1.close();
         	bw2.close();
         } catch (IOException e) {
             e.printStackTrace();
+        	System.out.println((e));
         }
         
     }
