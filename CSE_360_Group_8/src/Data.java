@@ -58,6 +58,16 @@ public class Data
 	}
 	
 	/**
+	 * Function that returns the data arraylist.
+	 * 
+	 * @return the data arraylist containing the data of the current object
+	 */
+	public List<Float> getData() 
+	{
+		return data;
+	}
+	
+	/**
 	 * Function to set the min and max variables that bound the data that
 	 * analysis is done on. If the min and max values are not floats, an
 	 * error is added to the error arraylist.
