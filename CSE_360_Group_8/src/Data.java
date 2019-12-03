@@ -43,6 +43,21 @@ public class Data
 	}
 	
 	/**
+	 * Overloaded class constructor for the Data class that does not take a
+	 * filePath. In this case, there will only be user input data and no file
+	 * input.
+	 */
+	public Data()
+	{
+		min = 0f;
+		max = 100f;
+		
+		data = new ArrayList<Float>();
+		history = new ArrayList<String>(); 
+		errors = new ArrayList<String>();
+	}
+	
+	/**
 	 * Function to set the min and max variables that bound the data that
 	 * analysis is done on. If the min and max values are not floats, an
 	 * error is added to the error arraylist.
@@ -71,6 +86,44 @@ public class Data
     	}
 	}
 	
+	/**
+	 * Function to set the min variable that bound the data that
+	 * analysis is done on. If the min value is not a Float, an
+	 * error is added to the error arraylist.
+	 * 
+	 * @param min The min value to bound the data that analysis is done on.
+	 */
+	public void setMin(String min) 
+	{
+    	try
+    	{
+    		this.min = Float.parseFloat(min);
+       	}
+    	catch(NumberFormatException e)
+    	{
+    		errors.add("Attempted to set invalid min: " + min);
+    	}
+	}
+	
+	/**
+	 * Function to set the max variable that bound the data that
+	 * analysis is done on. If the max value is not a floats, an
+	 * error is added to the error arraylist.
+	 * 
+	 * @param max The max value to bound the data that analysis is done on.
+	 */
+	public void setMax(String max) 
+	{
+    	try
+    	{
+    		this.max = Float.parseFloat(max);
+    	}
+    	catch(NumberFormatException e)
+    	{
+    		errors.add("Attempted to set invalid max: " + max);
+    	}
+	}
+
 	/**
 	 * Function that prints the data array of floats in 4 neat columns. It first
 	 * sorts the data by calling the sort function. It then arranges the
