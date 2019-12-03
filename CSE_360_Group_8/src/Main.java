@@ -43,12 +43,11 @@ public class Main extends Application {
         maxBoundaryInput.setPromptText("Max");
 
         //Buttons
-        Button createReport = new Button("Create Report");
+//        Button createReport = new Button("Create Report");
 //        addButton.setOnAction(e -> addButtonClicked());
-        Button submitData = new Button("Submit DAta");
-//        deleteButton.setOnAction(e -> deleteButtonClicked());
+        Button submitData = new Button("Submit Data");
 
-        boundaryPane.getChildren().addAll(minBoundaryInput,maxBoundaryInput,createReport,submitData);
+        boundaryPane.getChildren().addAll(minBoundaryInput,maxBoundaryInput,submitData);
 
         // ** ADDED
         //Value column
@@ -62,8 +61,10 @@ public class Main extends Application {
 
         //Buttons
         addButton = new Button("Add Value");
+        addButton.setDisable(true);
         addButton.setOnAction(e -> addButtonClicked());
         deleteButton = new Button("Delete Value");
+        deleteButton.setDisable(true);
         deleteButton.setOnAction(e -> deleteButtonClicked());
 
         HBox hBox = new HBox();
@@ -76,6 +77,13 @@ public class Main extends Application {
 
         VBox tablePane = new VBox();
         tablePane.getChildren().addAll(table, hBox);
+
+        // Dont allow input of data without bounds
+        submitData.setOnAction(e -> {
+            getBoundaries(minBoundaryInput, maxBoundaryInput);
+            addButton.setDisable(false);
+            deleteButton.setDisable(false);
+        });
 
         // Add the panes to the dataEntry section
         dateEntryPane.getChildren().addAll(boundaryPane, tablePane);
@@ -90,7 +98,11 @@ public class Main extends Application {
         Text errorHeader = new Text("ERROR:");
         errorHeader.setFont(font);
 
-        errorBox.getChildren().addAll(errorHeader);
+        // Where to display errors
+        TextField errors = new TextField();
+        errors.setDisable(true);
+
+        errorBox.getChildren().addAll(errorHeader, errors);
 
         split_pane.getItems().addAll(errorBox);
 
@@ -103,7 +115,10 @@ public class Main extends Application {
         Text dataHeader = new Text("DATA:");
         dataHeader.setFont(font);
 
-        dataBox.getChildren().addAll(dataHeader);
+        TextField dataDisplay = new TextField();
+        dataDisplay.setDisable(true);
+
+        dataBox.getChildren().addAll(dataHeader, dataDisplay);
 
         split_pane.getItems().addAll(dataBox);
 
@@ -117,7 +132,7 @@ public class Main extends Application {
     }
 
     //Add button clicked
-    public void addButtonClicked(){
+    private void addButtonClicked(){
         table valTable = new table();
         valTable.setValue(Double.parseDouble(valueInput.getText()));
         table.getItems().add(valTable);
@@ -125,11 +140,19 @@ public class Main extends Application {
     }
 
     //Delete button clicked
-    public void deleteButtonClicked(){
+    private void deleteButtonClicked(){
         ObservableList<table> productSelected, allProducts;
         allProducts = table.getItems();
         productSelected = table.getSelectionModel().getSelectedItems();
         productSelected.forEach(allProducts::remove);
+    }
+
+    // Boundaries for Data
+    private void getBoundaries(TextField minBound, TextField maxBound){
+        if (minBound != null){
+            Data data = new Data();
+            data.setMinMax(minBound.getText(), maxBound.getText());
+        }
     }
 
 
