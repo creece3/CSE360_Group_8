@@ -37,6 +37,19 @@ public class createReport extends Application {
 	
 	//Report button clicked
     public void reportButtonClicked() {
+	// **
+	    try {
+		    BufferedWriter buffWrite = new BufferedWriter(new FileWriter("Extractdate.txt"));
+		    buffWrite.write("hello");
+		    buffWrite.flush(); // flush the buffer
+		    buffWrite.close(); // close file
+		    System.out.println("Written to file: [Extractdate.txt]");
+		} catch (IOException e) {
+		    System.out.println((e));
+		}
+	// ** 
+	    
+	    
     	//FileWriter dataAnalysis;
     	//FileWriter errorLog;
     	BufferedWriter bw1;
