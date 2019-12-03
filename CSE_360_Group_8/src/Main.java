@@ -17,6 +17,8 @@ public class Main extends Application {
     TextField valueInput;
     Button addButton;
     Button deleteButton;
+    Data data;
+    TextField errors = new TextField();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -43,13 +45,12 @@ public class Main extends Application {
         maxBoundaryInput.setPromptText("Max");
 
         //Buttons
-//        Button createReport = new Button("Create Report");
-//        addButton.setOnAction(e -> addButtonClicked());
         Button submitData = new Button("Submit Data");
+        Button createReport = new Button("Create Report");
+//        addButton.setOnAction(e -> addButtonClicked());
 
-        boundaryPane.getChildren().addAll(minBoundaryInput,maxBoundaryInput,submitData);
+        boundaryPane.getChildren().addAll(minBoundaryInput,maxBoundaryInput,submitData, createReport);
 
-        // ** ADDED
         //Value column
         TableColumn<table, Double> valueColumn = new TableColumn<>("Value");
         valueColumn.setMinWidth(100);
@@ -98,8 +99,6 @@ public class Main extends Application {
         Text errorHeader = new Text("ERROR:");
         errorHeader.setFont(font);
 
-        // Where to display errors
-        TextField errors = new TextField();
         errors.setDisable(true);
 
         errorBox.getChildren().addAll(errorHeader, errors);
@@ -149,12 +148,9 @@ public class Main extends Application {
 
     // Boundaries for Data
     private void getBoundaries(TextField minBound, TextField maxBound){
-        if (minBound != null){
-            Data data = new Data();
-            data.setMinMax(minBound.getText(), maxBound.getText());
-        }
+        data = new Data();
+        data.setMinMax(minBound.getText(), maxBound.getText());
     }
-
 
     public static void main(String[] args) {
         launch(args);
