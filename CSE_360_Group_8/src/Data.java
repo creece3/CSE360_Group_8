@@ -135,14 +135,16 @@ public class Data
 	}
 
 	/**
-	 * Function that prints the data array of floats in 4 neat columns. It first
-	 * sorts the data by calling the sort function. It then arranges the
-	 * elements of the data arraylist into 4 arrays that represent each column
-	 * to print. Lastly, it prints the elements of these arrays while calling
-	 * the trimFloat method which formats the floats to appear the same as they
-	 * were input.
+	 * Function that returns a string representation of the data arraylist 
+	 * in 4 neat columns. It first sorts the data by calling the sort function.
+	 * It then arranges the elements of the data arraylist into 4 arrays that
+	 * represent each column to print. Lastly, it concatenates the elements of
+	 * these arrays while calling the trimFloat method which formats the floats 
+	 * to appear the same as they were input.
+	 * 
+	 * @return The String of the data formatted into 4 columns.
 	 */
-	public void printData() 
+	public String printData() 
 	{
 		sortData();
 		
@@ -238,27 +240,31 @@ public class Data
 		}
 		
 		//Print the data
+		String data = "";
+		
 		for(int index = 0; index < rows; index++) 
 		{
 			if(index < column1.length) 
 			{
-				System.out.printf("%-15s", trimFloat(column1[index]));
+				data += String.format("%-15s", trimFloat(column1[index]));
 			}
 			if(index < column2.length) 
 			{
-				System.out.printf("%-15s", trimFloat(column2[index]));
+				data += String.format("%-15s", trimFloat(column2[index]));
 			}
 			if(index < column3.length) 
 			{
-				System.out.printf("%-15s", trimFloat(column3[index]));
+				data += String.format("%-15s", trimFloat(column3[index]));
 			}
 			if(index < column4.length) 
 			{
-				System.out.printf("%-15s", trimFloat(column4[index]));
+				data += String.format("%-15s", trimFloat(column4[index]));
 			}
 			
-			System.out.println();
+			data += "\n";
 		}
+
+		return data;
 	}
 	
 	/**
@@ -293,15 +299,21 @@ public class Data
 	}
 	
 	/**
-	 * Function to print all the errors in the error arraylist. It simply
-	 * iterates through the errors and prints them each on a new line.
+	 * Function to return a string containing all the errors in the error 
+	 * arraylist. It simply iterates through the errors and puts them on a new
+	 * line in the string.
 	 */
-	public void printErrors() 
+	public String printErrors() 
 	{
-		for(int index = errors.size() - 1; index >= 0; index--) 
+		String errors = "";
+		
+		for(int index = this.errors.size() - 1; index >= 0; index--) 
 		{
-			System.out.println(errors.get(index));
+			errors += this.errors.get(index);
+			errors += "\n";
 		}
+		
+		return errors;
 	}
 	
 	/**
