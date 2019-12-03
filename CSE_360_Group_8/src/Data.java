@@ -288,9 +288,9 @@ public class Data
 	 */
 	public void printErrors() 
 	{
-		for(String error : errors) 
+		for(int index = errors.size() - 1; index >= 0; index--) 
 		{
-			System.out.println(error);
+			System.out.println(errors.get(index));
 		}
 	}
 	
