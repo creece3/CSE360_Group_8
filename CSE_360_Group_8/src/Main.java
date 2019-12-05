@@ -1,14 +1,25 @@
+
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import javafx.scene.text.Text;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.geometry.Insets;
 import javafx.scene.text.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class Main extends Application {
 
@@ -19,6 +30,13 @@ public class Main extends Application {
     Button deleteButton;
     Data data = null;
     Text errors = new Text();
+    
+    //Historgram Data
+
+    List <Float> grades = new ArrayList<Float>();
+    int DATA_SIZE = 1000;
+    int hData[] = new int[DATA_SIZE];
+    int group[] = new int[10];
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -122,7 +140,69 @@ public class Main extends Application {
         split_pane.getItems().addAll(dataBox);
 
         root.getChildren().addAll(split_pane);
+        
+        // Historgram
+        
+        /*
+            Random floats for Data data
+            FOR TESTING
+        */
+        //***********************
+        Data gradeList = new Data();
 
+        Random r = new Random();
+
+        for (int i = 0; i < DATA_SIZE; i++) {
+            Float random = 0 + r.nextFloat() * (100 - 0);
+            grades.add(random);
+            gradeList.insertData(random.toString());
+        }
+        groupData();
+        //***********************
+        Label labelInfo = new Label();
+        labelInfo.setText(
+                "Historgram: "  + "\n"
+                );
+
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        final BarChart<String, Number> barChart
+                = new BarChart<>(xAxis, yAxis);
+        barChart.setCategoryGap(0);
+        barChart.setBarGap(0);
+
+        xAxis.setLabel("Grades");
+        yAxis.setLabel("Frequency");
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Histogram");
+        series1.getData().add(new XYChart.Data("0-10", group[0]));
+        series1.getData().add(new XYChart.Data("10-20", group[1]));
+        series1.getData().add(new XYChart.Data("20-30", group[2]));
+        series1.getData().add(new XYChart.Data("30-40", group[3]));
+        series1.getData().add(new XYChart.Data("40-50", group[4]));
+
+        series1.getData().add(new XYChart.Data("50-60", group[5]));
+        series1.getData().add(new XYChart.Data("60-70", group[6]));
+        series1.getData().add(new XYChart.Data("70-80", group[7]));
+        series1.getData().add(new XYChart.Data("80-90", group[8]));
+        series1.getData().add(new XYChart.Data("90-100", group[9]));
+
+        barChart.getData().addAll(series1);
+
+        VBox HistvBox = new VBox();
+        HistvBox.getChildren().addAll(labelInfo, barChart);        
+
+        Scene histScene = new Scene(HistvBox, 800, 450);
+        Button histB = new Button("Make Historgram!");
+        
+        histB.setOnAction(e -> 
+        {
+            //groupData();
+            primaryStage.setScene(histScene);
+        });
+        root.getChildren().addAll(histB);
+        
         // display the Application
         primaryStage.setTitle("Grading Application");
         Scene scene = new Scene(root, 1000, 800); //setup of the scene inside the pane
@@ -153,6 +233,40 @@ public class Main extends Application {
         data.setMinMax(minBound.getText(), maxBound.getText());
 
         errors.setText(data.printErrors());
+    }
+    // Readies histogram
+    private void groupData()
+    {
+        //grades = data.getData();
+       
+        //grades.add(Data.data.get(i));
+        for(int i=0; i<10; i++){
+            group[i]=0;
+        }
+        for(int i=0; i<DATA_SIZE; i++)
+        {
+            if(grades.get(i)<=10){
+                group[0]++;
+            }else if(grades.get(i)<=20){
+                group[1]++;
+            }else if(grades.get(i)<=30){
+                group[2]++;
+            }else if(grades.get(i)<=40){
+                group[3]++;
+            }else if(grades.get(i)<=50){
+                group[4]++;
+            }else if(grades.get(i)<=60){
+                group[5]++;
+            }else if(grades.get(i)<=70){
+                group[6]++;
+            }else if(grades.get(i)<=80){
+                group[7]++;
+            }else if(grades.get(i)<=90){
+                group[8]++;
+            }else if(grades.get(i)<=100){
+                group[9]++;
+            }
+        }
     }
 
     public static void main(String[] args) {
