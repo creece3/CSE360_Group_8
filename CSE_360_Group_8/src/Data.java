@@ -68,6 +68,167 @@ public class Data
 	}
 	
 	/**
+	 * Function that returns the mean value of the data arraylist. It does this
+	 * by adding up all the values of the arraylist and dividing them by the
+	 * size of data. It then removes the trailing zeros by calling the trimFloat
+	 * function, and it returns the string returned from the trimFloat function.
+	 * It returns this value as a string.
+	 * 
+	 * @return Mean value of the data arraylist. N/A if no elements in data.
+	 */
+	public String mean() 
+	{
+		if(data.size() > 0)
+		{
+			Float total = 0f,
+				mean = 0f;
+		
+			for(Float element : data) 
+			{
+				total += element;
+			}
+
+			mean = total / (float)data.size();
+
+			return trimFloat(mean);
+		}
+		else 
+		{
+			return "N/A";
+		}
+	}	
+	
+	/**
+	 * Function that returns a String representation of the median value of the
+	 * data arraylist. It does this by dividing the size of the array in half.
+	 * This is the median value if data's size is odd. The median value of even
+	 * sized data is the average of this value and the next value. The median
+	 * value is N/A if data is empty.
+	 * 
+	 * @return The median value of the arraylists. N/A if data is empty.
+	 */
+	public String median() 
+	{
+		if(data.size() > 0)
+		{
+			int medianIndex;
+			Float median;
+		
+			medianIndex = data.size() / 2;
+
+			if(data.size() % 2 == 1) 
+			{
+				median = data.get(medianIndex);
+			}
+			else 
+			{
+				median = (data.get(medianIndex) + data.get(medianIndex + 1)) / 2f;
+			}
+
+			return trimFloat(median);
+		}
+		else
+		{
+			return "N/A";
+		}
+	}
+	
+	/**
+	 * Function that returns the String representation of the Mode of the data
+	 * arraylist. It does this by first sorting the arraylist data, and then it
+	 * uses an iterative process to count the number that appears the most. The
+	 * definition of mode used in this function follows:
+	 * 1. N/A is returned for empty data
+	 * 2. "No mode" is returned for data where is element is unique
+	 * 3. "Mode: modeFloatValue" is returned if one number appears the most
+	 * 4. "Mode: modeFloatValue1, ..., ModeFloatValueN" is returned if multiple
+	 * numbers appear more than once and appear the most.
+	 * 
+	 * @return The mode of the data arraylist. N/A if data is empty.
+	 */
+	public String mode() 
+	{
+		if(data.size() > 0) 
+		{
+			sortData();
+			
+			int numberOfAppearances = 0, numberOfMostApperances = 1;
+			Float currentValue, previousValue;
+			
+			List<Float> modes = new ArrayList<Float>(data);
+			
+			currentValue = data.get(0);
+			
+			for(int index = 0; index < data.size(); index++) 
+			{
+				if(currentValue == data.get(index) && index != data.size() - 1) 
+				{
+					numberOfAppearances++;
+				}
+				else 
+				{
+					if(index == data.size() - 1) 
+					{
+						if(currentValue == data.get(index)) 
+						{
+							numberOfAppearances++;
+						}
+						else 
+						{
+							currentValue = data.get(index);
+							numberOfAppearances = 1;
+						}
+					}
+					
+					if(numberOfAppearances > numberOfMostApperances) 
+					{
+						numberOfMostApperances = numberOfAppearances;						
+						
+						modes.clear();
+						modes.add(currentValue);
+					}
+					else if(numberOfAppearances == numberOfMostApperances && numberOfAppearances > 1) 
+					{
+						modes.add(currentValue);
+					}
+			
+					currentValue = data.get(index);
+					numberOfAppearances = 1;
+				}
+			}
+			
+			if(modes.size() == 0) 
+			{
+				return "Mode: no mode, all unique elements";
+			}
+			else if(modes.size() == 1)
+			{
+				return "Mode: " + trimFloat(modes.get(0));
+			}
+			else 
+			{
+				String modesOutput = "Modes: ";
+				
+				for(int index = 0; index < modes.size(); index++) 
+				{
+					modesOutput += trimFloat(modes.get(index));
+					
+					if(index != modes.size() - 1) 
+					{
+						modesOutput += ", ";
+					}
+				}
+				
+				return modesOutput;
+			}
+		}
+		else 
+		{
+			return "N/A";
+		}
+	}
+	
+	/**
 	 * Function to set the min and max variables that bound the data that
 	 * analysis is done on. If the min and max values are not floats, an
 	 * error is added to the error arraylist.
@@ -148,7 +309,20 @@ public class Data
 	{
 		sortData();
 		
-		int rows = data.size() / 4 + 1;
+		int rows;
+		
+		if(data.size() > 0 && data.size() % 4 == 0) 
+		{
+			rows = data.size() / 4;
+		}
+		else if(data.size() > 0) 
+		{
+			rows = data.size() / 4 + 1;
+		}
+		else 
+		{
+			rows = 0;
+		}
 		
 		Float[] column1 = new Float[rows], 
 			column2 = null, 
