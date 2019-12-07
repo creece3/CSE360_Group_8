@@ -1,4 +1,3 @@
-package pkg360project;
 import java.io.File;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -87,8 +86,8 @@ public class Main extends Application {
         //File Chooser tool for importing files
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
-        		new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-        		new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
         );
 
         //Buttons
@@ -245,14 +244,18 @@ public class Main extends Application {
         if (data == null)
             data = new Data();
 
-        table valTable = new table();
-        valTable.setValue(Double.parseDouble(valueInput.getText()));
-        table.getItems().add(valTable);
-
         // Insert and print data
         data.insertData(valueInput.getText());
         dataSection.setText(data.printData());
 
+        // check if the data is within bounds
+        if (Double.parseDouble(valueInput.getText()) >= data.min && data.max >= Double.parseDouble(valueInput.getText())) {
+
+            table valTable = new table();
+            valTable.setValue(Double.parseDouble(valueInput.getText()));
+            table.getItems().add(valTable);
+        }
+        
         valueInput.clear();
 
         errors.setText(data.printErrors());
@@ -324,7 +327,7 @@ public class Main extends Application {
         //grades = data.getData();
 
         //grades.add(Data.data.get(i));
-        
+
         for(int i=0; i<10; i++){
             group[i]=0;
         }
