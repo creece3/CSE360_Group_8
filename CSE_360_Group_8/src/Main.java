@@ -135,6 +135,7 @@ public class Main extends Application {
             getBoundaries(minBoundaryInput, maxBoundaryInput);
             addButton.setDisable(false);
             deleteButton.setDisable(false);
+            submitData.setDisable(true);
         });
 
         // Add the panes to the dataEntry section
