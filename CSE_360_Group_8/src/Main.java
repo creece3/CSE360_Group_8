@@ -320,7 +320,7 @@ public class Main extends Application {
         errors.setText(data.printErrors());
     }
     
-     /**
+         /**
      * Function to print the report for all data gathered and analyzed
      */
     private void createDataReport(){
@@ -328,7 +328,8 @@ public class Main extends Application {
             BufferedWriter buffWriter = new BufferedWriter(new FileWriter("Data Analysis.txt"));
 
             buffWriter.write("=== Data ===\n" + data.printData());
-            buffWriter.write("\n" + data.mean() + "\n" + data.median() + "\n" +  data.mode());
+            buffWriter.write("\n" + data.mean() + "\n" + data.median() + "\n" +  data.mode() +  "\n" +  data.maxValue() +  "\n" +  data.minValue());
+            
 
             buffWriter.close();
         } catch (IOException e) {
