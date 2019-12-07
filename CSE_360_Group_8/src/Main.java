@@ -1,3 +1,4 @@
+package pkg360project;
 import java.io.File;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -53,6 +54,7 @@ public class Main extends Application {
         Font font = Font.font("Verdana", FontWeight.EXTRA_BOLD, 25);
         VBox root = new VBox();
         SplitPane split_pane = new SplitPane();
+        Scene scene = new Scene(root, 1000, 800); //setup of the scene inside the pane
 
         // Data Entry
         HBox dateEntryPane = new HBox();
@@ -86,8 +88,8 @@ public class Main extends Application {
         //File Chooser tool for importing files
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+        		new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+        		new FileChooser.ExtensionFilter("CSV Files", "*.csv")
         );
 
         //Buttons
@@ -221,17 +223,22 @@ public class Main extends Application {
 
         Scene histScene = new Scene(HistvBox, 800, 450);
         Button histB = new Button("Make Historgram!");
-
+        
         histB.setOnAction(e ->
         {
             //groupData();
             primaryStage.setScene(histScene);
         });
-        root.getChildren().addAll(histB);
+        Button returnToMain = new Button("Return to Main Screen");
+        returnToMain.setOnAction(e -> primaryStage.setScene(scene));
+        reportButtonsPane.getChildren().addAll(histB);
+        HistvBox.getChildren().addAll(returnToMain);
+        //root.getChildren().addAll(histB);
+
 
         // display the Application
         primaryStage.setTitle("Grading Application");
-        Scene scene = new Scene(root, 1000, 800); //setup of the scene inside the pane
+        
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -244,18 +251,14 @@ public class Main extends Application {
         if (data == null)
             data = new Data();
 
+        table valTable = new table();
+        valTable.setValue(Double.parseDouble(valueInput.getText()));
+        table.getItems().add(valTable);
+
         // Insert and print data
         data.insertData(valueInput.getText());
         dataSection.setText(data.printData());
 
-        // check if the data is within bounds
-        if (Double.parseDouble(valueInput.getText()) >= data.min && data.max >= Double.parseDouble(valueInput.getText())) {
-
-            table valTable = new table();
-            valTable.setValue(Double.parseDouble(valueInput.getText()));
-            table.getItems().add(valTable);
-        }
-        
         valueInput.clear();
 
         errors.setText(data.printErrors());
@@ -327,31 +330,36 @@ public class Main extends Application {
         //grades = data.getData();
 
         //grades.add(Data.data.get(i));
-
+        Float min = data.min;
+        Float max = data.max;
+        
+        Float split = (max - min)/10;
+        
         for(int i=0; i<10; i++){
             group[i]=0;
         }
         for(int i=0; i<grades.size(); i++)
         {
-            if(grades.get(i)<=10){
+            Float grade = grades.get(i);
+            if(grade >= min && grade <= (min + split)){
                 group[0]++;
-            }else if(grades.get(i)<=20){
+            }else if(grade >= min + split && grade <= min + split * 2){
                 group[1]++;
-            }else if(grades.get(i)<=30){
+            }else if(grade >= min + split * 2 && grade <= min + split* 3){
                 group[2]++;
-            }else if(grades.get(i)<=40){
+            }else if(grade >= min + split * 3 && grade <= (min + split * 4)){
                 group[3]++;
-            }else if(grades.get(i)<=50){
+            }else if(grade >= min + split * 4 && grade <= (min + split * 5)){
                 group[4]++;
-            }else if(grades.get(i)<=60){
+            }else if(grade >= min + split * 5 && grade <= (min + split * 6)){
                 group[5]++;
-            }else if(grades.get(i)<=70){
+            }else if(grade >= min + split * 6 && grade <= (min + split * 7)){
                 group[6]++;
-            }else if(grades.get(i)<=80){
+            }else if(grade >= min + split * 7 && grade <= (min + split * 8)){
                 group[7]++;
-            }else if(grades.get(i)<=90){
+            }else if(grade >= min + split * 8 && grade <= (min + split * 9)){
                 group[8]++;
-            }else if(grades.get(i)<=100){
+            }else if(grade >= min + split * 9 && grade <= max){
                 group[9]++;
             }
         }
