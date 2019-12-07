@@ -109,7 +109,7 @@ public class Main extends Application {
 
         //Value input
         valueInput = new TextField();
-        valueInput.setPromptText("Value");
+        valueInput.setPromptText("Value to Insert");
 
         //Buttons
         addButton = new Button("Add Value");
@@ -252,14 +252,23 @@ public class Main extends Application {
         if (data == null)
             data = new Data();
 
-        table valTable = new table();
-        valTable.setValue(Double.parseDouble(valueInput.getText()));
-        table.getItems().add(valTable);
-
         // Insert and print data
         data.insertData(valueInput.getText());
         dataSection.setText(data.printData());
 
+        // check if the data is within bounds
+        if (Double.parseDouble(valueInput.getText()) >= data.min && data.max >= Double.parseDouble(valueInput.getText())) {
+
+        	table.getItems().clear();
+        	
+        	for(Float element : data.getData()) 
+        	{
+        		table valTable = new table();
+                valTable.setValue(Double.parseDouble(element.toString()));
+                table.getItems().add(valTable);
+        	}
+        }
+        
         valueInput.clear();
 
         errors.setText(data.printErrors());
@@ -270,10 +279,28 @@ public class Main extends Application {
      * Function to remove selected data from the Data Table
      */
     private void deleteButtonClicked(){
-        ObservableList<table> productSelected, allProducts;
-        allProducts = table.getItems();
+        // NEED TO CHECK DATA TYPE
+        if (data == null)
+            data = new Data();
+        
+        ObservableList<table> productSelected;
         productSelected = table.getSelectionModel().getSelectedItems();
-        productSelected.forEach(allProducts::remove);
+        
+        for(table tableElement : productSelected) 
+        {
+        	data.deleteElement(Double.toString((tableElement.getValue())));
+        }
+        
+    	table.getItems().clear();
+    	
+    	for(Float element : data.getData()) 
+    	{
+    		table valTable = new table();
+            valTable.setValue(Double.parseDouble(element.toString()));
+            table.getItems().add(valTable);
+    	}
+    	
+        dataSection.setText(data.printData());
     }
 
     /**
