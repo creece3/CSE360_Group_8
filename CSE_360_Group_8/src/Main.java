@@ -337,15 +337,16 @@ public class Main extends Application {
         }
     }
 
-    /**
+     /**
      * Function to print the report for all operations done
      */
     private void createOperationReport(){
         try {
             BufferedWriter buffWriter = new BufferedWriter(new FileWriter("Operations.txt"));
-            for (String history : data.history){
-                buffWriter.write("\n" + history);
-            }
+
+            buffWriter.write("=== Operations ===\n" + data.printHistory());
+
+            buffWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println((e));
