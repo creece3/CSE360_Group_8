@@ -121,9 +121,9 @@ public class Data
 			{
 				median = data.get(medianIndex);
 			}
-			else 
+			else
 			{
-				median = (data.get(medianIndex) + data.get(medianIndex + 1)) / 2f;
+				median = (data.get(medianIndex) + data.get(medianIndex - 1)) / 2f;
 			}
 
 			return "Median: " + trimFloat(median);
@@ -132,6 +132,33 @@ public class Data
 		{
 			return "N/A";
 		}
+	}
+	
+	public void deleteElement(String elementToDelete) 
+	{
+		try
+    	{
+    		Float floatElementToDelete = Float.parseFloat(elementToDelete);
+    		
+    		boolean deletedElement = false;
+    		int index = 0;
+    		
+    		while(!deletedElement && index < data.size()) 
+    		{
+    			if(data.get(index).equals(floatElementToDelete)) 
+    			{
+    				data.remove(index);
+    				deletedElement = true;
+    				System.out.println("TRUE");
+    			}
+   
+    			index++;
+    		}
+       	}
+    	catch(NumberFormatException e)
+    	{
+    		errors.add("PROGRAM FAILURE CANNOT DELETE");
+    	};
 	}
 	
 	/**
@@ -627,8 +654,17 @@ public class Data
 		    	try
 		    	{
 		    		dataElementFloat = Float.parseFloat(dataElementString);
-		    		
-		    		data.add(dataElementFloat);
+		    	
+		    		if(dataElementFloat <= max && dataElementFloat >= min) 
+		    		{
+		    			data.add(dataElementFloat);
+		    		}
+		    		else 
+		    		{
+		    			errors.add("File input out of range (Line = " +
+		    				currentLine + ", Column = " + currentColumn + "): "
+		    				+ dataElementString);
+		    		}
 		    	}
 		    	catch(NumberFormatException e)
 		    	{
