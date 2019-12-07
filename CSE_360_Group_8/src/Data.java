@@ -68,6 +68,55 @@ public class Data
 		return data;
 	}
 	
+	public String size() 
+	{
+		return Integer.toString(data.size());
+	}
+	
+	public String maxValue() 
+	{
+		if(data.size() > 0) 
+		{
+			Float maxValue = Float.NEGATIVE_INFINITY;
+			
+			for(int index = 0; index < data.size(); index++) 
+			{
+				if(data.get(index) > maxValue) 
+				{
+					maxValue = data.get(index); 
+				}
+			}
+			
+			return "Max value: " + Float.toString(maxValue);
+		}
+		else 
+		{
+			return "N/A";
+		}
+	}
+	
+	public String minValue() 
+	{
+		if(data.size() > 0) 
+		{
+			Float minValue = Float.POSITIVE_INFINITY;
+			
+			for(int index = 0; index < data.size(); index++) 
+			{
+				if(data.get(index) < minValue) 
+				{
+					minValue = data.get(index);
+				}
+			}
+			
+			return "Min value: " + Float.toString(minValue);
+		}
+		else 
+		{
+			return "N/A";
+		}
+	}
+	
 	/**
 	 * Function that returns the mean value of the data arraylist. It does this
 	 * by adding up all the values of the arraylist and dividing them by the
@@ -149,7 +198,7 @@ public class Data
     			{
     				data.remove(index);
     				deletedElement = true;
-    				System.out.println("TRUE");
+    				history.add("Deleted element: " + elementToDelete);
     			}
    
     			index++;
@@ -159,6 +208,18 @@ public class Data
     	{
     		errors.add("PROGRAM FAILURE CANNOT DELETE");
     	};
+	}
+	
+	public String printHistory() 
+	{
+		String returnHistory = "";
+		
+		for(String element : history) 
+		{
+			returnHistory += element + "\n";
+		}
+		
+		return returnHistory;
 	}
 	
 	/**
@@ -181,9 +242,9 @@ public class Data
 			sortData();
 			
 			int numberOfAppearances = 0, numberOfMostApperances = 1;
-			Float currentValue, previousValue;
+			Float currentValue;
 			
-			List<Float> modes = new ArrayList<Float>(data);
+			List<Float> modes = new ArrayList<Float>();
 			
 			currentValue = data.get(0);
 			
@@ -195,17 +256,9 @@ public class Data
 				}
 				else 
 				{
-					if(index == data.size() - 1) 
+					if(index == data.size() - 1 && currentValue == data.get(index)) 
 					{
-						if(currentValue == data.get(index)) 
-						{
-							numberOfAppearances++;
-						}
-						else 
-						{
-							currentValue = data.get(index);
-							numberOfAppearances = 1;
-						}
+						numberOfAppearances++;
 					}
 					
 					if(numberOfAppearances > numberOfMostApperances) 
