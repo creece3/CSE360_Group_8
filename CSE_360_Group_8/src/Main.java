@@ -1,4 +1,3 @@
-package pkg360project;
 import java.io.File;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -14,8 +13,6 @@ import javafx.scene.text.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -23,10 +20,10 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -95,6 +92,10 @@ public class Main extends Application {
         //Buttons
         Button submitData = new Button("Submit Data");
         Button createReport = new Button("Create Report");
+        createReport.setOnAction(e -> {
+            createDataReport();
+            createOperationReport();
+        });
         Button importFile = new Button("Import File");
         importFile.setOnAction(e -> { File selectedFile = fileChooser.showOpenDialog(primaryStage); });
 //        addButton.setOnAction(e -> addButtonClicked());
@@ -317,6 +318,38 @@ public class Main extends Application {
         data.setMinMax(minBound.getText(), maxBound.getText());
 
         errors.setText(data.printErrors());
+    }
+    
+     /**
+     * Function to print the report for all data gathered and analyzed
+     */
+    private void createDataReport(){
+        try {
+            BufferedWriter buffWriter = new BufferedWriter(new FileWriter("Data Analysis.txt"));
+
+            buffWriter.write("=== Data ===\n" + data.printData());
+            buffWriter.write("\n" + data.mean() + "\n" + data.median() + "\n" +  data.mode());
+
+            buffWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println((e));
+        }
+    }
+
+    /**
+     * Function to print the report for all operations done
+     */
+    private void createOperationReport(){
+        try {
+            BufferedWriter buffWriter = new BufferedWriter(new FileWriter("Operations.txt"));
+            for (String history : data.history){
+                buffWriter.write("\n" + history);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println((e));
+        }
     }
 
     // Readies histogram
