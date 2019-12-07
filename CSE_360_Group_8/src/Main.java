@@ -1,3 +1,5 @@
+package pkg360project;
+import java.io.File;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -23,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -81,11 +84,18 @@ public class Main extends Application {
         Text maxLabel = new Text("Max: ");
         TextField maxBoundaryInput = new TextField();
         maxBoundaryInput.setText("100");
+        //File Chooser tool for importing files
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+        		new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+        		new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+        );
 
         //Buttons
         Button submitData = new Button("Submit Data");
         Button createReport = new Button("Create Report");
         Button importFile = new Button("Import File");
+        importFile.setOnAction(e -> { File selectedFile = fileChooser.showOpenDialog(primaryStage); });
 //        addButton.setOnAction(e -> addButtonClicked());
 
         boundaryPane.getChildren().addAll(minLabel, minBoundaryInput, maxLabel, maxBoundaryInput, submitData);
@@ -285,6 +295,40 @@ public class Main extends Application {
             group[i]=0;
         }
         for(int i=0; i<DATA_SIZE; i++)
+        {
+            if(grades.get(i)<=10){
+                group[0]++;
+            }else if(grades.get(i)<=20){
+                group[1]++;
+            }else if(grades.get(i)<=30){
+                group[2]++;
+            }else if(grades.get(i)<=40){
+                group[3]++;
+            }else if(grades.get(i)<=50){
+                group[4]++;
+            }else if(grades.get(i)<=60){
+                group[5]++;
+            }else if(grades.get(i)<=70){
+                group[6]++;
+            }else if(grades.get(i)<=80){
+                group[7]++;
+            }else if(grades.get(i)<=90){
+                group[8]++;
+            }else if(grades.get(i)<=100){
+                group[9]++;
+            }
+        }
+    }
+    private void groupData2()
+    {
+        //grades = data.getData();
+
+        //grades.add(Data.data.get(i));
+        
+        for(int i=0; i<10; i++){
+            group[i]=0;
+        }
+        for(int i=0; i<grades.size(); i++)
         {
             if(grades.get(i)<=10){
                 group[0]++;
