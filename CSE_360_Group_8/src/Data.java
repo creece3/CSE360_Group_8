@@ -17,7 +17,7 @@ import java.io.*;
  */
 public class Data 
 {
-	private Float min, max;
+	public Float min, max;
 
 	private List<Float> data;
 	private List<String> history, errors;
@@ -508,9 +508,15 @@ public class Data
     	{
     		dataElementFloat = Float.parseFloat(dataElementString);
     		
-    		data.add(dataElementFloat);
-    		
-    		history.add(Events.dataInput + dataElementString);
+    		if(dataElementFloat <= max && dataElementFloat >= min)
+    		{
+    			data.add(dataElementFloat);
+    			history.add(Events.dataInput + dataElementString);
+    		}
+    		else 
+    		{
+    			errors.add("User input data out of range: " + dataElementString);
+    		}
     	}
     	catch(NumberFormatException e)
     	{
