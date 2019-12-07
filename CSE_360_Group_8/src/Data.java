@@ -64,6 +64,7 @@ public class Data
 	 */
 	public List<Float> getData() 
 	{
+		sortData();
 		return data;
 	}
 	
@@ -90,13 +91,13 @@ public class Data
 
 			mean = total / (float)data.size();
 
-			return trimFloat(mean);
+			return "Mean: " + trimFloat(mean);
 		}
 		else 
 		{
 			return "N/A";
 		}
-	}	
+	}
 	
 	/**
 	 * Function that returns a String representation of the median value of the
@@ -125,7 +126,7 @@ public class Data
 				median = (data.get(medianIndex) + data.get(medianIndex + 1)) / 2f;
 			}
 
-			return trimFloat(median);
+			return "Median: " + trimFloat(median);
 		}
 		else
 		{
@@ -401,15 +402,15 @@ public class Data
 			
 			for(int index = rows; index < rows * 2; index++) 
 			{
-				column2[index] = data.get(index);
+				column2[index - rows] = data.get(index);
 			}
 			for(int index = rows * 2; index < 3 * rows; index++) 
 			{
-				column3[index] = data.get(index);
+				column3[index - rows * 2] = data.get(index);
 			}
 			for(int index = 3 * rows; index < 4 * rows; index++) 
 			{
-				column4[index] = data.get(index);
+				column4[index - rows * 3] = data.get(index);
 			}
 		}
 		
@@ -564,7 +565,7 @@ public class Data
 	 * @param filePath The filePath from the class constructor to check if it is
 	 * valid and exists.
 	 */
-	private void handleFile(String filePath) 
+	public void handleFile(String filePath) 
 	{
 		File file = new File(filePath);
 
