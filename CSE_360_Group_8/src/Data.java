@@ -250,13 +250,13 @@ public class Data
 			
 			for(int index = 0; index < data.size(); index++) 
 			{
-				if(currentValue == data.get(index) && index != data.size() - 1) 
+				if(currentValue.equals(data.get(index)) && index != data.size() - 1) 
 				{
 					numberOfAppearances++;
 				}
 				else 
 				{
-					if(index == data.size() - 1 && currentValue == data.get(index)) 
+					if(index == data.size() - 1 && currentValue.equals(data.get(index))) 
 					{
 						numberOfAppearances++;
 					}
